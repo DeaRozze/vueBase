@@ -55,6 +55,8 @@
     <section class="chapter-section">
       <h2 class="chapter-title">Основы компонентов</h2>
       <Chapter11 />
+      <Chapter11 />
+      <Chapter11 />
     </section>
   </div>
 </template>
