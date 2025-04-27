@@ -2,67 +2,22 @@
   <div class="app">
     <h1 class="title">Vue.js Учебник</h1>
 
-    <section class="chapter-section">
-      <h2 class="chapter-title">Синтаксис шаблонов</h2>
-      <Chapter1 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Основы реактивности</h2>
-      <Chapter2 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Вычисляемые свойства</h2>
-      <Chapter3 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Работа с классами и стилями</h2>
-      <Chapter4 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Условная отрисовка</h2>
-      <Chapter5 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Отрисовка списков</h2>
-      <Chapter6 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Обработка событий</h2>
-      <Chapter7 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Работа с формами</h2>
-      <Chapter8 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Наблюдатели</h2>
-      <Chapter9 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Ссылки на элементы шаблона</h2>
-      <Chapter10 />
-    </section>
-
-    <section class="chapter-section">
-      <h2 class="chapter-title">Основы компонентов</h2>
-      <Chapter11 />
-      <Chapter11 />
-      <Chapter11 />
+    <section class="chapter-sections" v-for="chapter in chapters" :key="chapter.title">
+      <h2 class="chapter-title">{{ chapter.title }}</h2>
+      <component :is="chapter.component" />
     </section>
   </div>
+
+  <input :value='text' @input="event => text = event.target.value">
+  <p>v-model без v-model: {{ text }}</p>
+  <ul>
+    <li v-for="(item, index) in items" :key="item.id" :class="{ 'done-item': doneIndex.includes(index) || allDone }">
+      {{ item }}
+    </li>
+  </ul>
 </template>
-
 <script setup>
-
+import { ref } from 'vue';
 import Chapter1 from './components/chapters/Chapter1.vue';
 import Chapter2 from './components/chapters/Chapter2.vue';
 import Chapter3 from './components/chapters/Chapter3.vue';
@@ -75,9 +30,31 @@ import Chapter9 from './components/chapters/Chapter9.vue';
 import Chapter10 from './components/chapters/Chapter10.vue';
 import Chapter11 from './components/chapters/Chapter11.vue';
 
+const chapters = [
+  { title: 'Синтаксис шаблонов', component: Chapter1 },
+  { title: 'Основы реактивности', component: Chapter2 },
+  { title: 'Вычисляемые свойства', component: Chapter3 },
+  { title: 'Работа с классами и стилями', component: Chapter4 },
+  { title: 'Условная отрисовка', component: Chapter5 },
+  { title: 'Отрисовка списков', component: Chapter6 },
+  { title: 'Обработка событий', component: Chapter7 },
+  { title: 'Работа с формами', component: Chapter8 },
+  { title: 'Наблюдатели', component: Chapter9 },
+  { title: 'Ссылки на элементы шаблона', component: Chapter10 },
+  { title: 'Основы компонентов ', component: Chapter11 },
+]
+const textSize = ref(20);
+const doneIndex = ref([]);
+const allDone = ref(false)
+const items = ref([])
 </script>
-
 <style scoped>
+/* v-bind в CSS */
+.done-item {
+  text-decoration: line-through;
+  font-size: v-bind('textSize + "px"');
+}
+
 .app {
   max-width: 800px;
   margin: 0 auto;
@@ -97,7 +74,7 @@ import Chapter11 from './components/chapters/Chapter11.vue';
   color: #2c3e50;
 }
 
-.chapter-section {
+.chapter-sections {
   margin-bottom: 40px;
   padding: 20px;
   background-color: #fff;
@@ -107,7 +84,9 @@ import Chapter11 from './components/chapters/Chapter11.vue';
 }
 
 .chapter-title {
-  font-weight: 600;
-  margin-bottom: 15px;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
 }
 </style>
